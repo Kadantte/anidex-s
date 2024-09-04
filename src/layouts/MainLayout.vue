@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar class="bg-red text-black text-bold">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-
+        <q-icon name="mdi-robot-vacuum" size="md" />
         <q-toolbar-title> ANIDEX v{{ pkg.version }}</q-toolbar-title>
 
         <q-tabs v-model="anidex.campaign.config.tab">
