@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar class="bg-red text-black text-bold">
+      <q-toolbar class="bg-red text-bold">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
         <q-icon name="mdi-robot-vacuum" size="md" />
         <q-toolbar-title> ANIDEX v{{ pkg.version }}</q-toolbar-title>
