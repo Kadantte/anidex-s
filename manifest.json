@@ -1,0 +1,12 @@
+{
+  "name": "Anidex",
+  "version": "1.0.0",
+  "manifest_version": 1,
+  "action": {
+    "title": "Anidex",
+    "icon": "/apps/anidex/icon.svg",
+    "popover": "/apps/anidex/",
+    "height": 600,
+    "width": 450
+  }
+}
