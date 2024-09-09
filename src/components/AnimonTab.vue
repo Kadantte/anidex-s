@@ -32,7 +32,14 @@
     <!--BOND STUFF-->
     <div class="col-xs-6 col-sm-3 q-mb-sm q-pr-sm">
       <!--LEVEL-->
-      <num-box title="BOND LEVEL" v-model="anidex.bondSrc.bond.level" />
+      <num-box title="BOND LEVEL" v-model="anidex.bondSrc.bond.level">
+        <template v-slot:under>
+          <div class="row items-center text-center" v-if="anidex.bondSrc.bond.level >= 2">
+            <span class="col">IMPROVEMENTS: {{ improvements.selected }} / {{ improvements.available }}</span>
+            <q-btn class="col-shrink" flat dense rounded icon="mdi-cog" @click="showImprDialog = true" />
+          </div>
+        </template>
+      </num-box>
     </div>
 
     <div :class="`col-xs-6 col-sm-3 q-mb-sm ${$q.screen.gt.xs ? 'q-pr-sm' : ''}`">
@@ -47,7 +54,7 @@
 
     <div class="col-xs-6 col-sm-3 q-mb-sm">
       <!--SIG ATK USES-->
-      <max-cur-box title="SIG. ATK USES" v-model="mon.sigAtkUses" :max="mon.evos[rank].stats.brains" />
+      <max-cur-box title="SIG. ATK USES" v-model="mon.sigAtkUses" :max="derived.init" />
     </div>
   </div>
 
@@ -225,12 +232,41 @@
       <talents-box title="Qualities" v-model="mon.evos[rank].qualities" v-if="rank != 'Fledgling'" />
     </div>
   </div>
+
+  <q-dialog v-model="showImprDialog" :maximized="$q.screen.lt.sm">
+    <q-card class="rounded-corners">
+      <q-card-section class="row bg-red text-white items-center text-h6">
+        <span class="col">SCORE IMPROVEMENTS</span>
+        <q-btn class="col-shrink" flat dense rounded icon="mdi-close-circle" @click="showImprDialog = false" />
+      </q-card-section>
+
+      <q-card-section class="column q-pa-lg">
+        <q-select class="row q-mb-md" v-model="selectedImpr" :options="keys(EScoreImpr)" dense>
+          <template v-slot:after>
+            <q-btn flat rounded dense icon="mdi-plus-circle" @click="anidex.imprSrc.improvements.push(selectedImpr)" />
+          </template>
+        </q-select>
+
+        <div class="row items-center" v-for="(impr, i) in anidex.imprSrc.improvements" :key="`impr-${i}`">
+          <span class="col">{{ impr }}</span>
+          <q-btn
+            class="col-shrink"
+            flat
+            rounded
+            dense
+            icon="mdi-delete"
+            @click="anidex.imprSrc.improvements.splice(i, 1)"
+          />
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-import { Mon, EvoRank, EEvoRank, EClassification, EElement, MaxCurStat } from './models';
+import { Mon, EvoRank, EEvoRank, EClassification, EElement, MaxCurStat, ScoreImpr, EScoreImpr } from './models';
 
 import { useQuasar } from 'quasar';
 import { useAnidexStore } from 'src/stores/app-store';
@@ -247,6 +283,8 @@ import TalentsBox from './widgets/TalentsBox.vue';
 const anidex = useAnidexStore();
 const mon = defineModel<Mon>({ required: true });
 const rank = ref<EvoRank>('Basic');
+const selectedImpr = ref<ScoreImpr>('Max HP');
+const showImprDialog = ref(false);
 
 interface DerivedStats {
   hp: MaxCurStat;
@@ -279,6 +317,11 @@ const pointsTotal = computed((): number => {
   Object.keys(stats).forEach((key) => (t += stats[key as keyof typeof stats]));
   return t - baseStat(rank.value).min * 4;
 });
+
+const improvements = computed(() => ({
+  available: Math.floor(anidex.bondSrc.bond.level / 2),
+  selected: anidex.imprSrc.improvements.length,
+}));
 
 const derived = computed((): DerivedStats => {
   const stats = copyStruct(mon.value.evos[rank.value].stats);
@@ -315,6 +358,26 @@ const derived = computed((): DerivedStats => {
       derived.dmg = stats.power * 4;
       break;
   }
+
+  // Score Improvements
+  anidex.imprSrc.improvements.forEach((impr) => {
+    switch (impr) {
+      case 'Max HP':
+        if (derived.hp.max) derived.hp.max += 5;
+        break;
+
+      case 'Damage':
+        derived.dmg += 2;
+        break;
+
+      case 'Dodge':
+        derived.dodge++;
+        break;
+
+      case 'Initiative and Sig. Atk uses':
+        derived.init++;
+    }
+  });
 
   return derived;
 });

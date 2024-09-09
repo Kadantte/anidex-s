@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { exportFile } from 'quasar';
-import { AppStore, Campaign, Mon, HasBond } from 'src/components/models';
+import { AppStore, Campaign, Mon, HasBond, HasScoreImpr } from 'src/components/models';
 import { copyStruct } from 'src/lib/utils';
 
 export const useAnidexStore = defineStore('anidex', {
@@ -15,6 +15,10 @@ export const useAnidexStore = defineStore('anidex', {
     campaign: (store): Campaign => store.campaigns[store.config.current],
     mon: (store): Mon => store.campaigns[store.config.current].mons[store.campaigns[store.config.current].config.mon],
     bondSrc: (store): HasBond =>
+      store.campaigns[store.config.current].config.groupBond
+        ? store.campaigns[store.config.current].kid
+        : store.campaigns[store.config.current].mons[store.campaigns[store.config.current].config.mon],
+    imprSrc: (store): HasScoreImpr =>
       store.campaigns[store.config.current].config.groupBond
         ? store.campaigns[store.config.current].kid
         : store.campaigns[store.config.current].mons[store.campaigns[store.config.current].config.mon],

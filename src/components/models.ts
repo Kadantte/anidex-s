@@ -47,7 +47,11 @@ export interface HasBond {
   };
 }
 
-export interface Kid extends HasID, HasName, HasBond {
+export interface HasScoreImpr {
+  improvements: ScoreImpr[];
+}
+
+export interface Kid extends HasID, HasName, HasBond, HasScoreImpr {
   xp: number;
   about: {
     virtue: string;
@@ -118,6 +122,15 @@ export enum EEvoRank {
 
 export type EvoRank = keyof typeof EEvoRank;
 
+export enum EScoreImpr {
+  'Max HP',
+  Damage,
+  Dodge,
+  'Initiative and Sig. Atk uses',
+}
+
+export type ScoreImpr = keyof typeof EScoreImpr;
+
 export interface MonEvo extends HasName {
   class: Classification;
   element: Element;
@@ -141,7 +154,7 @@ export interface MonEvo extends HasName {
   qualities: Talent[];
 }
 
-export interface Mon extends HasID, HasBond {
+export interface Mon extends HasID, HasBond, HasScoreImpr {
   nature: string;
   sigAtkUses: MaxCurStat;
   evos: Record<EvoRank, MonEvo>;

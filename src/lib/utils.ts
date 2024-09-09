@@ -24,6 +24,7 @@ export const create = {
     id: uid(),
     name: 'New Kid',
     xp: 0,
+    improvements: [],
     bond: {
       level: 1,
       points: {
@@ -65,6 +66,7 @@ export const create = {
   mon: (): Mon => ({
     id: uid(),
     nature: '',
+    improvements: [],
     bond: {
       level: 1,
       points: {

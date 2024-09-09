@@ -17,6 +17,8 @@
       <div class="row text-h6 text-center" v-else>
         <span class="col"> {{ value }}</span>
       </div>
+
+      <slot name="under"></slot>
     </template>
   </container-box>
 </template>
