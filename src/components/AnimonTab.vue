@@ -34,9 +34,9 @@
       <!--LEVEL-->
       <num-box title="BOND LEVEL" v-model="anidex.bondSrc.bond.level">
         <template v-slot:under>
-          <div class="row items-center text-center" v-if="anidex.bondSrc.bond.level >= 2">
-            <span class="col">IMPROVEMENTS: {{ improvements.selected }} / {{ improvements.available }}</span>
-            <q-btn class="col-shrink" flat dense rounded icon="mdi-cog" @click="showImprDialog = true" />
+          <div class="row items-center text-center text-bold" v-if="anidex.bondSrc.bond.level >= 2">
+            <span class="col">Improvements: {{ improvements.selected }} / {{ improvements.available }}</span>
+            <q-btn class="col-shrink" flat dense rounded icon="mdi-cog" size="sm" @click="showImprDialog = true" />
           </div>
         </template>
       </num-box>

@@ -4,7 +4,7 @@
   "manifest_version": 1,
   "action": {
     "title": "Anidex",
-    "icon": "/apps/anidex/icon.svg",
+    "icon": "/apps/anidex/icon.png",
     "popover": "/apps/anidex/",
     "height": 600,
     "width": 450
