@@ -222,9 +222,16 @@
               dense
             />
           </div>
-          <q-input class="row" label="EFFECT 1" v-model="mon.evos[rank].sigAtk.effect.one" dense />
-          <q-input class="row" label="EFFECT 2" v-model="mon.evos[rank].sigAtk.effect.two" dense />
-          <q-input class="row" label="EFFECT 3" v-model="mon.evos[rank].sigAtk.effect.three" dense borderless />
+          <q-input class="row" label="EFFECT 1" v-model="mon.evos[rank].sigAtk.effect.one" dense autogrow />
+          <q-input class="row" label="EFFECT 2" v-model="mon.evos[rank].sigAtk.effect.two" dense autogrow />
+          <q-input
+            class="row"
+            label="EFFECT 3"
+            v-model="mon.evos[rank].sigAtk.effect.three"
+            dense
+            autogrow
+            borderless
+          />
         </template>
       </container-box>
 
