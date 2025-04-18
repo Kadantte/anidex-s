@@ -355,12 +355,12 @@ const derived = computed((): DerivedStats => {
       derived.dmg = stats.power * 2;
       break;
 
-    case 'Giga':
+    case 'Ultra':
       derived.hp.max = 15 + mon.value.evos[rank.value].stats.heart * 5;
       derived.dmg = stats.power * 3;
       break;
 
-    case 'Ultra':
+    case 'Giga':
       derived.hp.max = 20 + mon.value.evos[rank.value].stats.heart * 6;
       derived.dmg = stats.power * 4;
       break;
